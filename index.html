@@ -15,6 +15,17 @@
   --a-dim:#2a1a12;--b-dim:#121e2a;--c-dim:#121e16;--d-dim:#1e122a;
   --accent:#c8f135;--warn:#ffa94d;--danger:#ff6b6b;
 }
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:36px 32px;width:100%;max-width:340px;text-align:center;}
+.login-logo{font-family:'Instrument Serif',serif;font-size:32px;margin-bottom:4px;}
+.login-logo span{color:var(--accent);font-style:italic;}
+.login-sub{font-size:11px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:28px;}
+.login-box input{background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:8px;padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;text-align:center;letter-spacing:.08em;margin-bottom:12px;}
+.login-box input:focus{outline:none;border-color:var(--accent);}
+.login-btn{width:100%;padding:10px;background:var(--accent);color:#000;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;}
+.login-btn:hover{background:#d5ff3a;}
+.login-err{font-size:11px;color:var(--danger);margin-top:8px;min-height:16px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
 
@@ -809,6 +820,38 @@ function selectDayTab(key){const btn=document.getElementById('dtab-'+key);if(btn
 ['a','b','c','d'].forEach(buildDay);
 buildOverview();
 loadData();
+</script>
+
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Workout<span>.</span>Log</div>
+    <div class="login-sub">Acceso privado</div>
+    <input type="password" id="pw-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="login-btn" onclick="checkPw()">Entrar</button>
+    <div class="login-err" id="pw-err"></div>
+  </div>
+</div>
+<script>
+(function(){
+  const PW='Hamburgo202$';
+  const KEY='wl_auth';
+  if(sessionStorage.getItem(KEY)==='1'){
+    document.getElementById('login-screen').style.display='none';
+  }
+  window.checkPw=function(){
+    const val=document.getElementById('pw-input').value;
+    if(val===PW){
+      sessionStorage.setItem(KEY,'1');
+      document.getElementById('login-screen').style.display='none';
+    } else {
+      document.getElementById('pw-err').textContent='Contraseña incorrecta';
+      document.getElementById('pw-input').value='';
+      document.getElementById('pw-input').focus();
+    }
+  };
+  // focus input on load
+  window.addEventListener('DOMContentLoaded',()=>document.getElementById('pw-input')?.focus());
+})();
 </script>
 </body>
 </html>
