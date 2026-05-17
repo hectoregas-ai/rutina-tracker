@@ -393,13 +393,19 @@ let activeFilter='ALL';
 let activeMuscle='ALL';
 const chartInstances={};  // keyed by exercise name
 
-async function loadData(){
-  try{const r=await window.storage.get(STORAGE_KEY);logData=r&&r.value?JSON.parse(r.value):[...SEED_DATA];if(!r||!r.value)await saveData();}
-  catch{logData=[...SEED_DATA];}
+function loadData(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    logData=raw?JSON.parse(raw):[...SEED_DATA];
+    if(!raw){saveData();}
+  } catch(e){logData=[...SEED_DATA];}
   renderLog();
   refreshAllCards();
 }
-async function saveData(){try{await window.storage.set(STORAGE_KEY,JSON.stringify(logData));}catch(e){}}
+function saveData(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(logData));}
+  catch(e){console.error('localStorage error',e);}
+}
 
 function uid(){return 'e'+Date.now()+Math.random().toString(36).slice(2);}
 function fmtDate(d){
@@ -534,7 +540,7 @@ function makeExCard(ex,d,dayKey){
   const actions=document.createElement('div');actions.className='form-actions';actions.style.gridColumn='1/-1';
   const btnSave=document.createElement('button');btnSave.className='btn btn-accent';btnSave.textContent='Guardar';
   const btnClear=document.createElement('button');btnClear.className='btn btn-ghost';btnClear.textContent='Limpiar';
-  btnSave.addEventListener('click',()=>saveInlineEntry(card,chartWrap,histWrap));
+  btnSave.addEventListener('click',()=>saveInlineEntry(card));
   btnClear.addEventListener('click',()=>clearInlineForm(form));
   actions.append(btnSave,btnClear);
 
@@ -621,12 +627,12 @@ function renderInlineProgress(sid,chartWrap,histWrap){
   histEl.innerHTML=`<table class="hist-table"><thead><tr><th>Fecha</th><th>Series</th><th>Peso</th><th>Δ</th><th>Siguiente</th><th>Nota</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
-function saveInlineEntry(card,chartWrap,histWrap){
+function saveInlineEntry(card){
   const exName=card.dataset.exname;
   const primary=card.dataset.primary;
   const day=card.dataset.day;
   const form=card.querySelector('.add-form');
-  if(!form)return;
+  if(!form){console.error('No form found in card');return;}
   const get=f=>form.querySelector('[data-field="'+f+'"]');
   const date=get('date')?.value;
   if(!date){alert('Selecciona la fecha.');return;}
@@ -636,25 +642,26 @@ function saveInlineEntry(card,chartWrap,histWrap){
   const sets=series&&reps?series+'x'+reps:series||reps;
   const weightRaw=get('weight')?.value.trim();
   const weight=isBw?'Bodyweight':(weightRaw?weightRaw+'kg':'');
-  logData.push({
-    id:uid(),date,day,exercise:exName,primary,
-    sets,weight,equipment:'Mancuernas',
-    next:get('next')?.value.trim()||'',
-    note:get('note')?.value.trim()||'',
-  });
+  const entry={id:uid(),date,day,exercise:exName,primary,sets,weight,equipment:'Mancuernas',next:get('next')?.value.trim()||'',note:get('note')?.value.trim()||''};
+  console.log('Saving entry:',entry);
+  logData.push(entry);
   saveData();
+  console.log('logData length after save:',logData.length,'localStorage:',localStorage.getItem(STORAGE_KEY)?.length);
   clearInlineForm(form);
   refreshCard(exName);
-  renderInlineProgress(safeId(exName),chartWrap,histWrap);
+  const sid=safeId(exName);
+  const chartWrap=card.querySelector('[data-chartwrap]');
+  const histWrap=card.querySelector('[data-histwrap]');
+  renderInlineProgress(sid,chartWrap,histWrap);
   renderLog();
-  // switch to prog tab
+  // switch to Progresión tab
   const tabs=card.querySelectorAll('.tsub');
   const contents=card.querySelectorAll('.tsub-content');
   tabs.forEach(b=>b.classList.remove('active'));
   contents.forEach(c=>c.classList.remove('active'));
-  tabs[1]?.classList.add('active'); // Progresión is index 1
-  contents[1]?.classList.add('active');
-  renderInlineProgress(safeId(exName),chartWrap,histWrap);
+  if(tabs[1])tabs[1].classList.add('active');
+  if(contents[1])contents[1].classList.add('active');
+  renderInlineProgress(sid,chartWrap,histWrap);
 }
 
 function clearInlineForm(form){
