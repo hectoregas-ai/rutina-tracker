@@ -508,13 +508,10 @@ async function save() {
   if(isSyncing) return;
   isSyncing = true;
   showSyncStatus('⟳ Guardando...', 'var(--text3)');
-  // Save to localStorage as backup
   try { localStorage.setItem('workout_log_v4', JSON.stringify(logData)); } catch(e) {}
   try {
-    const res = await fetch(API, {
-      method: 'POST',
-      body: JSON.stringify({action:'save', data:logData}),
-    });
+    const encoded = encodeURIComponent(JSON.stringify(logData));
+    const res = await fetch(API + '?action=save&data=' + encoded);
     const json = await res.json();
     if(json.status === 'ok') showSyncStatus('✓ Guardado en Google Sheets', 'var(--accent)');
     else showSyncStatus('⚠ Error al guardar', 'var(--danger)');
