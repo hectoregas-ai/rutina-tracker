@@ -114,8 +114,8 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-he
 .ex-tip{border-left:2px solid var(--day-color);padding:7px 11px;border-radius:0 6px 6px 0;background:var(--bg);font-size:12px;color:var(--text2);line-height:1.55;margin-top:8px;}
 
 /* PROGRESS */
-.mini-chart{height:80px;margin-bottom:8px;}
-.mini-chart canvas{width:100%!important;height:80px!important;}
+.mini-chart{height:140px;margin-bottom:8px;}
+.mini-chart canvas{width:100%!important;height:140px!important;}
 .no-data{font-size:11px;color:var(--text3);font-style:italic;padding:8px 0;}
 .hist-table{width:100%;border-collapse:collapse;font-size:11px;}
 .hist-table th{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);padding:4px 5px;border-bottom:1px solid var(--border);text-align:left;}
@@ -223,6 +223,48 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-he
 .log-edit-panel input{width:100%;background:var(--bg2);border:1px solid var(--accent);color:var(--text);border-radius:5px;padding:5px 6px;font-size:11px;font-family:'DM Mono',monospace;outline:none;}
 .empty-state{text-align:center;padding:32px;color:var(--text3);font-size:13px;}
 .empty-state span{display:block;font-size:28px;margin-bottom:8px;}
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  .top-nav { overflow-x: auto; }
+  .tnav-btn { font-size: 10px; padding: 12px 6px; letter-spacing: .06em; }
+  .r-hdr { padding: 14px 14px 10px; }
+  .r-title { font-size: 22px; }
+  .obj-bar { padding: 10px 14px; gap: 5px; }
+  .obj-btn { font-size: 10px; padding: 4px 10px; }
+  .obj-lbl { display: none; }
+  .day-bar { grid-template-columns: repeat(5,1fr); }
+  .day-btn { padding: 8px 3px; }
+  .day-btn-day { font-size: 10px; }
+  .day-btn-label { font-size: 8px; }
+  .day-btn-logic { display: none; }
+  .panel { padding: 10px 10px 80px; }
+  .ex-top { gap: 6px; padding: 9px 10px; flex-wrap: wrap; }
+  .ex-primary { display: none; }
+  .ex-intensity { min-width: 58px; padding-left: 7px; }
+  .ex-last { min-width: 68px; padding-left: 7px; }
+  .ex-name { font-size: 12px; }
+  .sub-tabs { overflow-x: auto; padding: 6px 10px 0; gap: 1px; }
+  .stab { font-size: 9px; padding: 4px 9px; white-space: nowrap; }
+  .stab-content { padding: 10px 10px; }
+  .tech-grid { grid-template-columns: 1fr; gap: 8px; }
+  .add-form { grid-template-columns: 1fr 1fr; gap: 7px; }
+  .log-wrap { padding: 10px 10px 80px; }
+  .log-row { grid-template-columns: 1fr 58px 58px; gap: 4px; }
+  .lr-mono:nth-child(4),.lr-next,.lr-note { display: none; }
+  .log-hdr { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .l-stats { gap: 12px; }
+  .filters { gap: 4px; }
+  .filt { font-size: 9px; padding: 3px 8px; }
+  .log-edit-panel { grid-template-columns: 1fr 1fr 1fr; }
+  .hist-table { font-size: 10px; }
+  .hist-table th, .hist-table td { padding: 4px 4px; }
+  .edit-inputs { grid-template-columns: 1fr 1fr 1fr; }
+  .grp-lbl { font-size: 9px; }
+  .ex-how p { font-size: 11px; }
+  .ex-tip { font-size: 11px; }
+}
+
 </style>
 </head>
 <body>
@@ -328,17 +370,17 @@ const DAYS = {
   b:{color:'#4a9de8',selClass:'sb',groups:[
     {label:'Espalda',color:'#4a9de8',exercises:[
       {name:'Remo con mancuerna a una mano',primary:'Dorsal ancho',w:'h',muscles:['Dorsal ancho','Romboides','Trapecio medio','Bíceps'],how:'Rodilla y mano del mismo lado apoyadas en el sofá. Mancuerna colgando. Tira llevando el codo hacia atrás y arriba sin rotar el torso. Pausa 1 s arriba, baja 3 s controlado.',tip:'Piensa en llevar el codo al bolsillo trasero, no en subir la mano.',type:'c',vid:{id:'roCP6wCXPqo',ch:"Men's Health"}},
-      {name:'Remo bilateral inclinado',primary:'Dorsal ancho',w:'h',muscles:['Dorsal ancho','Trapecio','Bíceps','Deltoides posterior'],how:'De pie, bisagra de cadera a 45°, mancuernas colgando. Tira ambos brazos llevando los codos hacia atrás. Agarre neutro para mayor activación del dorsal.',tip:'Mantén la espalda baja neutra. Si arqueas, reduce el peso.',type:'c',vid:{id:'EEFHHOCfHgw',ch:'AthleanX'}},
+      {name:'Remo bilateral inclinado',primary:'Dorsal ancho',w:'h',muscles:['Dorsal ancho','Trapecio','Bíceps','Deltoides posterior'],how:'De pie, bisagra de cadera a 45°, mancuernas colgando. Tira ambos brazos llevando los codos hacia atrás. Agarre neutro para mayor activación del dorsal.',tip:'Mantén la espalda baja neutra. Si arqueas, reduce el peso.',type:'c',vid:{id:'TXjeZsqCVsg',ch:'Jeremy Ethier'}},
       {name:'Pullover con mancuerna',primary:'Dorsal ancho',w:'m',muscles:['Dorsal ancho','Serrato anterior','Pectoral mayor'],how:'Tumbado transversalmente en el sofá, solo los omóplatos apoyados. Mancuerna con ambas manos sobre el pecho. Baja detrás de la cabeza sintiendo el estiramiento. Vuelve contrayendo el dorsal.',tip:'El estiramiento profundo es la clave.',type:'i',vid:{id:'K3mG9M9Hkms',ch:'Jeremy Ethier'}},
     ]},
     {label:'Bíceps',color:'#4a9de8',exercises:[
-      {name:'Curl con mancuernas alterno',primary:'Bíceps braquial',w:'m',muscles:['Bíceps braquial','Braquial anterior','Braquiorradial'],how:'De pie o sentado, palmas hacia arriba. Sube una mancuerna supinando la muñeca al subir. Baja 3 s completos. Alterna brazos sin balancear el torso.',tip:'El excéntrico lento (bajada) es donde ocurre gran parte del crecimiento.',type:'c',vid:{id:'KS-1_r9K4XA',ch:'AthleanX'}},
-      {name:'Curl martillo',primary:'Braquial anterior',w:'m',muscles:['Braquial anterior','Braquiorradial','Bíceps cabeza larga'],how:'Agarre neutro (pulgares arriba) durante todo el recorrido. Sube sin supinar. Trabaja el braquial, que queda bajo el bíceps y lo empuja hacia arriba.',tip:'Da volumen al brazo incluso de perfil.',type:'i',vid:{id:'KS-1_r9K4XA',ch:'AthleanX'}},
-      {name:'Curl concentrado',primary:'Bíceps (pico)',w:'l',muscles:['Bíceps (pico)','Braquial'],how:'Sentado, codo apoyado en la cara interna del muslo. Sube contrayendo al máximo, sostén 1 s arriba, baja controlado.',tip:'Último ejercicio — prioriza la calidad de contracción sobre el peso.',type:'i',vid:{id:'KS-1_r9K4XA',ch:'AthleanX'}},
+      {name:'Curl con mancuernas alterno',primary:'Bíceps braquial',w:'m',muscles:['Bíceps braquial','Braquial anterior','Braquiorradial'],how:'De pie o sentado, palmas hacia arriba. Sube una mancuerna supinando la muñeca al subir. Baja 3 s completos. Alterna brazos sin balancear el torso.',tip:'El excéntrico lento (bajada) es donde ocurre gran parte del crecimiento.',type:'c',vid:{id:'lp6Mx6rCifA',ch:'Jeremy Ethier'}},
+      {name:'Curl martillo',primary:'Braquial anterior',w:'m',muscles:['Braquial anterior','Braquiorradial','Bíceps cabeza larga'],how:'Agarre neutro (pulgares arriba) durante todo el recorrido. Sube sin supinar. Trabaja el braquial, que queda bajo el bíceps y lo empuja hacia arriba.',tip:'Da volumen al brazo incluso de perfil.',type:'i',vid:{id:'lp6Mx6rCifA',ch:'Jeremy Ethier'}},
+      {name:'Curl concentrado',primary:'Bíceps (pico)',w:'l',muscles:['Bíceps (pico)','Braquial'],how:'Sentado, codo apoyado en la cara interna del muslo. Sube contrayendo al máximo, sostén 1 s arriba, baja controlado.',tip:'Último ejercicio — prioriza la calidad de contracción sobre el peso.',type:'i',vid:{id:'lp6Mx6rCifA',ch:'Jeremy Ethier'}},
     ]},
     {label:'Core',color:'#b8b05a',exercises:[
-      {name:'Plank con variaciones',primary:'Transverso abdominal',w:'l',muscles:['Transverso abdominal','Oblicuos','Deltoides','Glúteos'],how:'Posición de plancha sobre antebrazos. Cada 15 s cambia: plank frontal → plank lateral derecho → plank lateral izquierdo → vuelve al frontal. Caderas niveladas.',tip:'Las variaciones laterales activan los oblicuos más que el plank estático solo.',type:'k',vid:{id:'x0f2sfsh7ns',ch:'AthleanX'}},
-      {name:'Pallof press con mancuerna',primary:'Oblicuos',w:'l',muscles:['Oblicuos','Transverso','Cuadrado lumbar'],how:'De pie perpendicular sosteniendo una mancuerna contra el pecho. Extiende los brazos al frente y aguanta 2 s sin rotar. Vuelve.',tip:'Entrena la función real del core: resistir movimientos no deseados.',type:'k',vid:{id:'jSnS34pB4Ec',ch:'AthleanX'}},
+      {name:'Plank con variaciones',primary:'Transverso abdominal',w:'l',muscles:['Transverso abdominal','Oblicuos','Deltoides','Glúteos'],how:'Posición de plancha sobre antebrazos. Cada 15 s cambia: plank frontal → plank lateral derecho → plank lateral izquierdo → vuelve al frontal. Caderas niveladas.',tip:'Las variaciones laterales activan los oblicuos más que el plank estático solo.',type:'k',vid:{id:'A2b2EmIg0dA',ch:'E3Rehab'}},
+      {name:'Pallof press con mancuerna',primary:'Oblicuos',w:'l',muscles:['Oblicuos','Transverso','Cuadrado lumbar'],how:'De pie perpendicular sosteniendo una mancuerna contra el pecho. Extiende los brazos al frente y aguanta 2 s sin rotar. Vuelve.',tip:'Entrena la función real del core: resistir movimientos no deseados.',type:'k',vid:{id:'_2xWmYNnFS8',ch:'Colossus Fitness'}},
     ]},
   ]},
   c:{color:'#5ec47a',selClass:'sc',groups:[
@@ -358,14 +400,14 @@ const DAYS = {
   ]},
   d:{color:'#c45ee8',selClass:'sd',groups:[
     {label:'Hombros',color:'#c45ee8',exercises:[
-      {name:'Press de hombros sentado',primary:'Deltoides anterior',w:'h',muscles:['Deltoides anterior','Deltoides medial','Tríceps','Trapecio'],how:'Sentado con la espalda apoyada, mancuernas a la altura de los hombros, codos a 90°. Empuja hacia arriba hasta extender los brazos. Baja controlado.',tip:'Sentado con respaldo para aislar el deltoides y no compensar con la espalda baja.',type:'c',vid:{id:'h0od2ELqG9c',ch:'AthleanX'}},
-      {name:'Elevaciones laterales con pausa',primary:'Deltoides medial',w:'l',muscles:['Deltoides medial','Trapecio superior'],how:'De pie, mancuernas a los lados. Eleva hasta la horizontal con codos ligeramente flexionados y muñecas rotadas (meñique arriba). Pausa 2 s en la parte alta. Baja en 3 s.',tip:'La pausa elimina el impulso y transforma el ejercicio.',type:'i',vid:{id:'sS77YMMLX-8',ch:'AthleanX'}},
-      {name:'Elevaciones frontales alternas',primary:'Deltoides anterior',w:'l',muscles:['Deltoides anterior','Pectoral superior'],how:'De pie, mancuerna en agarre neutro. Eleva un brazo al frente hasta la horizontal, sin rotar el torso. Alterna.',tip:'Complementa el press con más volumen en el deltoides anterior.',type:'i',vid:{id:'qKD6esXgoBA',ch:'AthleanX'}},
-      {name:'Face pull con mancuernas',primary:'Deltoides posterior',w:'l',muscles:['Deltoides posterior','Trapecio medio','Romboides','Manguito rotador'],how:'Sentado o de pie inclinado, mancuernas en agarre neutro. Tira hacia la cara llevando los codos hacia atrás y afuera. Pausa 1 s.',tip:'El deltoides posterior previene lesiones de hombro a largo plazo. Nunca lo omitas.',type:'p',vid:{id:'zGZVv5zqCFE',ch:'AthleanX'}},
+      {name:'Press de hombros sentado',primary:'Deltoides anterior',w:'h',muscles:['Deltoides anterior','Deltoides medial','Tríceps','Trapecio'],how:'Sentado con la espalda apoyada, mancuernas a la altura de los hombros, codos a 90°. Empuja hacia arriba hasta extender los brazos. Baja controlado.',tip:'Sentado con respaldo para aislar el deltoides y no compensar con la espalda baja.',type:'c',vid:{id:'pmtTGxbCuoA',ch:'Jeff Nippard'}},
+      {name:'Elevaciones laterales con pausa',primary:'Deltoides medial',w:'l',muscles:['Deltoides medial','Trapecio superior'],how:'De pie, mancuernas a los lados. Eleva hasta la horizontal con codos ligeramente flexionados y muñecas rotadas (meñique arriba). Pausa 2 s en la parte alta. Baja en 3 s.',tip:'La pausa elimina el impulso y transforma el ejercicio.',type:'i',vid:{id:'HeovYNoZDRg',ch:'Jeff Nippard'}},
+      {name:'Elevaciones frontales alternas',primary:'Deltoides anterior',w:'l',muscles:['Deltoides anterior','Pectoral superior'],how:'De pie, mancuerna en agarre neutro. Eleva un brazo al frente hasta la horizontal, sin rotar el torso. Alterna.',tip:'Complementa el press con más volumen en el deltoides anterior.',type:'i',vid:{id:'b_LEX4n9lOs',ch:'Buff Dudes'}},
+      {name:'Face pull con mancuernas',primary:'Deltoides posterior',w:'l',muscles:['Deltoides posterior','Trapecio medio','Romboides','Manguito rotador'],how:'Sentado o de pie inclinado, mancuernas en agarre neutro. Tira hacia la cara llevando los codos hacia atrás y afuera. Pausa 1 s.',tip:'El deltoides posterior previene lesiones de hombro a largo plazo. Nunca lo omitas.',type:'p',vid:{id:'cg_JWaDX1rU',ch:'Dr. Mike Israetel'}},
     ]},
     {label:'Trapecio',color:'#c45ee8',exercises:[
-      {name:'Encogimientos de hombros (shrugs)',primary:'Trapecio superior',w:'m',muscles:['Trapecio superior','Elevador de la escápula'],how:'De pie, mancuernas a los lados. Sube los hombros directamente hacia las orejas al máximo. Sostén 1 s. Baja lentamente. Sin rotar los hombros.',tip:'El único ejercicio que trabaja el trapecio superior de forma directa.',type:'i',vid:{id:'h0od2ELqG9c',ch:'AthleanX'}},
-      {name:'Remo al mentón con mancuernas',primary:'Trapecio medio',w:'m',muscles:['Trapecio medio','Deltoides medial','Bíceps'],how:'De pie, mancuernas delante del cuerpo. Sube los codos hacia afuera y arriba llevando las mancuernas hacia el mentón. Los codos siempre por encima de las manos.',tip:'Agarre ancho para reducir stress en el manguito rotador.',type:'c',vid:{id:'h0od2ELqG9c',ch:'AthleanX'}},
+      {name:'Encogimientos de hombros (shrugs)',primary:'Trapecio superior',w:'m',muscles:['Trapecio superior','Elevador de la escápula'],how:'De pie, mancuernas a los lados. Sube los hombros directamente hacia las orejas al máximo. Sostén 1 s. Baja lentamente. Sin rotar los hombros.',tip:'El único ejercicio que trabaja el trapecio superior de forma directa.',type:'i',vid:{id:'pmtTGxbCuoA',ch:'Jeff Nippard'}},
+      {name:'Remo al mentón con mancuernas',primary:'Trapecio medio',w:'m',muscles:['Trapecio medio','Deltoides medial','Bíceps'],how:'De pie, mancuernas delante del cuerpo. Sube los codos hacia afuera y arriba llevando las mancuernas hacia el mentón. Los codos siempre por encima de las manos.',tip:'Agarre ancho para reducir stress en el manguito rotador.',type:'c',vid:{id:'pmtTGxbCuoA',ch:'Jeff Nippard'}},
     ]},
     {label:'Core',color:'#b8b05a',exercises:[
       {name:'Ab wheel rollout',primary:'Recto abdominal',w:'l',muscles:['Recto abdominal','Transverso','Dorsales','Serratos'],how:'De rodillas con la rueda frente a ti. Rueda hacia adelante extendiendo los brazos hasta que el cuerpo quede casi paralelo al suelo. Regresa contrayendo el core.',tip:'Empieza con recorrido corto hasta ganar fuerza.',type:'k',vid:{id:'pFjcp2Hk_rw',ch:'Conor Harris'}},
@@ -375,9 +417,9 @@ const DAYS = {
   ]},
   e:{color:'#e8c44a',selClass:'se',groups:[
     {label:'Espalda alta',color:'#e8c44a',exercises:[
-      {name:'Remo inclinado agarre supino',primary:'Bíceps + Dorsal',w:'h',muscles:['Bíceps','Dorsal ancho','Romboides','Trapecio medio'],how:'De pie, bisagra de cadera a 45°, mancuernas con palmas hacia arriba. Tira llevando los codos cerca del cuerpo. El agarre supino recluta más bíceps.',tip:'Combina trabajo de espalda con estímulo extra de bíceps.',type:'c',vid:{id:'EEFHHOCfHgw',ch:'AthleanX'}},
+      {name:'Remo inclinado agarre supino',primary:'Bíceps + Dorsal',w:'h',muscles:['Bíceps','Dorsal ancho','Romboides','Trapecio medio'],how:'De pie, bisagra de cadera a 45°, mancuernas con palmas hacia arriba. Tira llevando los codos cerca del cuerpo. El agarre supino recluta más bíceps.',tip:'Combina trabajo de espalda con estímulo extra de bíceps.',type:'c',vid:{id:'TXjeZsqCVsg',ch:'Jeremy Ethier'}},
       {name:'Pullover con mancuerna',primary:'Dorsal ancho',w:'m',muscles:['Dorsal ancho','Serrato anterior','Pectoral mayor'],how:'Tumbado transversalmente en el sofá, solo los omóplatos apoyados. Mancuerna con ambas manos sobre el pecho. Baja detrás de la cabeza sintiendo el estiramiento. Vuelve contrayendo el dorsal.',tip:'El estiramiento profundo es la clave.',type:'i',vid:{id:'K3mG9M9Hkms',ch:'Jeremy Ethier'}},
-      {name:'Face pull con mancuernas',primary:'Deltoides posterior',w:'l',muscles:['Deltoides posterior','Trapecio medio','Romboides'],how:'Sentado o de pie inclinado, mancuernas en agarre neutro. Tira hacia la cara llevando los codos hacia atrás y afuera. Pausa 1 s.',tip:'Segunda dosis semanal para el deltoides posterior. Fundamental.',type:'p',vid:{id:'zGZVv5zqCFE',ch:'AthleanX'}},
+      {name:'Face pull con mancuernas',primary:'Deltoides posterior',w:'l',muscles:['Deltoides posterior','Trapecio medio','Romboides'],how:'Sentado o de pie inclinado, mancuernas en agarre neutro. Tira hacia la cara llevando los codos hacia atrás y afuera. Pausa 1 s.',tip:'Segunda dosis semanal para el deltoides posterior. Fundamental.',type:'p',vid:{id:'cg_JWaDX1rU',ch:'Dr. Mike Israetel'}},
     ]},
     {label:'Bíceps — Volumen extra',color:'#e8c44a',exercises:[
       {name:'Curl inclinado en el sofá',primary:'Bíceps cabeza larga',w:'m',muscles:['Bíceps cabeza larga','Braquial anterior'],how:'Sentado en el sofá inclinado hacia atrás (~45°), mancuernas colgando por detrás del cuerpo. Sube supinando, baja controlado.',tip:'La inclinación produce el mayor estiramiento posible del bíceps.',type:'i',vid:{id:'lp6Mx6rCifA',ch:'Jeremy Ethier'}},
@@ -614,6 +656,8 @@ function buildForm(ex){
   const fSer=mkF('Series','number',sm?sm[1]:'4','series');fSer.querySelector('input').min=1;fSer.querySelector('input').max=10;
   const fReps=mkF('Reps realizadas','text',sm?sm[2]:'8','reps');
   const fWt=mkF('Peso (kg)','number','0','weight');fWt.querySelector('input').step=0.5;fWt.querySelector('input').min=0;
+  // Show kg hint
+  const kgHint=document.createElement('div');kgHint.style.cssText='font-size:9px;color:var(--text3);margin-top:2px;font-family:DM Mono,monospace;';kgHint.textContent='Escribe solo el número — se añade kg automáticamente';fWt.appendChild(kgHint);
 
   const fBw=document.createElement('div');fBw.className='bw-row';
   const cbw=document.createElement('input');cbw.type='checkbox';cbw.dataset.field='bw';
@@ -631,7 +675,7 @@ function buildForm(ex){
   bClr.addEventListener('click',()=>clearForm(form));
   actions.append(bSave,bClr);
 
-  form.append(fDate,fSer,fReps,fWt,fBw,fNext,fNote,actions);
+  form.append(fDate,fWt,fBw,fSer,fReps,fNext,fNote,actions);
   return form;
 }
 
@@ -688,7 +732,7 @@ function saveEntry(card){
   const ser=get('series')?.value.trim(), reps=get('reps')?.value.trim();
   const sets=ser&&reps?ser+'x'+reps:ser||reps;
   const wRaw=get('weight')?.value.trim();
-  const weight=isBw?'BW':(wRaw?wRaw+'kg':'');
+  const weight=isBw?'BW':(wRaw?((/kg|bw|body/i.test(wRaw))?wRaw:wRaw+'kg'):'');
   const entry={id:uid(),date,day,exercise:exName,primary,sets,weight,equipment:'Mancuernas',next:get('next')?.value.trim()||'',note:get('note')?.value.trim()||''};
   logData.push(entry);
   save();clearForm(form);
@@ -743,7 +787,7 @@ function renderProg(s, chartDiv, histDiv){
     charts[s]=new Chart(canvas.getContext('2d'),{
       type:'line',
       data:{labels:wpts.map(p=>p.date),datasets:[{data:wpts.map(p=>p.val),borderColor:'#c8f135',backgroundColor:'rgba(200,241,53,0.07)',pointBackgroundColor:'#c8f135',pointRadius:4,tension:0.35,fill:true}]},
-      options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5a5856',font:{size:9}},grid:{color:'#2a2a2e'}},y:{ticks:{color:'#5a5856',font:{size:9}},grid:{color:'#2a2a2e'}}}}
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5a5856',font:{size:9}},grid:{color:'#2a2a2e'}},y:{ticks:{color:'#5a5856',font:{size:9}},grid:{color:'#2a2a2e'}}}}
     });
   } else {
     chartDiv.innerHTML='<div class="no-data">'+(wpts.length===1?'Un registro con peso — el gráfico aparece con 2 o más.':'Sin datos de peso todavía.')+'</div>';
@@ -753,7 +797,7 @@ function renderProg(s, chartDiv, histDiv){
   if(!entries.length){histDiv.innerHTML='<div class="no-data">Ningún registro aún. ¡Usa ➕ Registrar!</div>';return;}
   const tbl=document.createElement('table');tbl.className='hist-table';
   const thead=document.createElement('thead');
-  thead.innerHTML='<tr><th>Fecha</th><th>Series</th><th>Reps</th><th>Peso</th><th>Δ</th><th>Siguiente</th><th>Nota</th><th></th></tr>';
+  thead.innerHTML='<tr><th>Fecha</th><th>Peso</th><th>Series</th><th>Reps</th><th>Δ</th><th>Siguiente</th><th>Nota</th><th></th></tr>';
   tbl.appendChild(thead);
   const tbody=document.createElement('tbody');
   [...entries].reverse().forEach((e,i,arr)=>{
@@ -763,7 +807,7 @@ function renderProg(s, chartDiv, histDiv){
     if(ck!==null&&pk!==null){const dv=ck-pk;delta=dv>0?`<span class="dp">+${dv.toFixed(1)}</span>`:dv<0?`<span class="dn">${dv.toFixed(1)}</span>`:`<span class="ds">—</span>`;}
     const sm=e.sets?.match(/^(\d+)[x×](.+)$/i);
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${fmtDate(e.date)}</td><td>${sm?sm[1]:(e.sets||'')}</td><td>${sm?sm[2]:''}</td><td>${e.weight||'—'}</td><td>${delta||'—'}</td><td style="color:var(--warn)">${e.next||'—'}</td><td style="color:var(--text3);font-family:'DM Sans',sans-serif;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.note||''}</td><td style="white-space:nowrap"><button class="btn-xs btn-edit" style="margin-right:3px">✏️</button><button class="btn-xs btn-del">✕</button></td>`;
+    tr.innerHTML=`<td>${fmtDate(e.date)}</td><td>${e.weight||'—'}</td><td>${sm?sm[1]:(e.sets||'')}</td><td>${sm?sm[2]:''}</td><td>${delta||'—'}</td><td style="color:var(--warn)">${e.next||'—'}</td><td style="color:var(--text3);font-family:'DM Sans',sans-serif;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.note||''}</td><td style="white-space:nowrap"><button class="btn-xs btn-edit" style="margin-right:3px">✏️</button><button class="btn-xs btn-del">✕</button></td>`;
     tr.querySelector('.btn-edit').addEventListener('click',()=>showEditRow(e,tr,s,chartDiv,histDiv));
     tr.querySelector('.btn-del').addEventListener('click',()=>{
       if(!confirm('¿Eliminar?'))return;
@@ -807,7 +851,7 @@ function showEditRow(entry,origTr,s,chartDiv,histDiv){
   });
   bCancel.addEventListener('click',()=>editTr.remove());
   btns.append(bSave,bCancel);
-  grid.append(fDate,fSer,fReps,fWt,fNext,fNote,btns);
+  grid.append(fDate,fWt,fSer,fReps,fNext,fNote,btns);
   td.appendChild(grid);editTr.appendChild(td);
   origTr.insertAdjacentElement('afterend',editTr);
   fSer.querySelector('input').focus();
@@ -847,9 +891,9 @@ function renderLog(){
       const sm=e.sets?.match(/^(\d+)[x×](.+)$/i);
       const row=document.createElement('div');row.className='log-row';
       const nd=document.createElement('div');nd.innerHTML=`<div class="lr-name">${e.exercise}</div><div class="lr-muscle">${e.primary||''}</div>`;
-      const s1=document.createElement('div');s1.className='lr-mono';s1.textContent=sm?sm[1]:(e.sets||'—');
-      const s2=document.createElement('div');s2.className='lr-mono';s2.textContent=sm?sm[2]:'—';
-      const s3=document.createElement('div');s3.className='lr-mono';s3.textContent=e.weight||'—';
+      const s1=document.createElement('div');s1.className='lr-mono';s1.textContent=e.weight||'—';
+      const s2=document.createElement('div');s2.className='lr-mono';s2.textContent=sm?sm[1]:(e.sets||'—');
+      const s3=document.createElement('div');s3.className='lr-mono';s3.textContent=sm?sm[2]:'—';
       const s4=document.createElement('div');s4.className='lr-next';s4.textContent='→ '+(e.next||'—');
       const s5=document.createElement('div');s5.className='lr-note';s5.title=e.note||'';s5.textContent=e.note||'';
       const bw=document.createElement('div');bw.style.cssText='display:flex;gap:3px;';
