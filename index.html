@@ -332,6 +332,11 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-he
         <div><div class="l-sval" id="l-total">0</div><div class="l-slbl">Registros</div></div>
       </div>
     </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+      <button class="btn btn-a" onclick="exportData()" style="font-size:11px;padding:6px 12px;">⬇️ Exportar JSON</button>
+      <label class="btn btn-g" style="font-size:11px;padding:6px 12px;cursor:pointer;">⬆️ Importar JSON<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
+      <button class="btn btn-g" onclick="if(confirm('¿Borrar TODOS los registros?')){logData=[];save();renderLog();refreshAllCards();}" style="font-size:11px;padding:6px 12px;color:var(--danger);border-color:var(--danger);">🗑️ Borrar todo</button>
+    </div>
     <div class="filters" id="day-filters">
       <button class="filt on" onclick="setDayF('ALL',this)">Todos</button>
       <button class="filt fa" onclick="setDayF('A',this)">Día A</button>
@@ -451,76 +456,35 @@ let curObj = 'h';
 // ═══════════════════════════════════════════════════════════════
 // TRACKER DATA
 // ═══════════════════════════════════════════════════════════════
-const API = 'https://script.google.com/macros/s/AKfycbz9MGYgzjs2QFTYs2n3p_Dsrrg4DeFlwiYdlGsQWi_m47zL4YPPlhcW3K_g2aRDQ5Kg/exec';
+const SK = 'workout_log_v4';
+const SEED = [
+  {id:'s1', date:'2025-05-03',day:'B',exercise:'Remo con mancuerna a una mano',  primary:'Dorsal ancho',      sets:'4x8',  weight:'22.5kg',equipment:'Mancuerna', next:'25kg',    note:''},
+  {id:'s2', date:'2025-05-03',day:'B',exercise:'Pullover con mancuerna',          primary:'Dorsal ancho',      sets:'3x12', weight:'15kg',  equipment:'Bench',    next:'same',    note:''},
+  {id:'s3', date:'2025-05-03',day:'B',exercise:'Curl con mancuernas alterno',     primary:'Bíceps braquial',   sets:'4x6',  weight:'13kg',  equipment:'Mancuernas',next:'4x8',   note:'Hombros en neutro, trabajar en supinado'},
+  {id:'s4', date:'2025-05-03',day:'B',exercise:'Curl martillo',                   primary:'Braquial anterior', sets:'4x6',  weight:'13kg',  equipment:'Mancuernas',next:'4x8',   note:''},
+  {id:'s5', date:'2025-05-03',day:'B',exercise:'Curl concentrado',                primary:'Bíceps (pico)',     sets:'3x8',  weight:'10kg',  equipment:'Mancuernas',next:'4x10',  note:''},
+  {id:'s6', date:'2025-05-17',day:'A',exercise:'Press con mancuernas en suelo',   primary:'Pectoral mayor',    sets:'4x6',  weight:'17.5kg',equipment:'Mancuernas',next:'4x8',   note:''},
+  {id:'s7', date:'2025-05-17',day:'A',exercise:'Press inclinado con mancuernas',  primary:'Pectoral superior', sets:'4x6',  weight:'15kg',  equipment:'Mancuernas',next:'4x8',   note:''},
+  {id:'s8', date:'2025-05-17',day:'A',exercise:'Fly (apertura) en suelo',         primary:'Pectoral mayor',    sets:'3x10', weight:'10kg',  equipment:'Mancuernas',next:'3x12',  note:''},
+  {id:'s9', date:'2025-05-17',day:'A',exercise:'Press francés con mancuernas',    primary:'Tríceps cabeza larga',sets:'4x10',weight:'10kg', equipment:'Mancuernas',next:'4x12',  note:''},
+];
 
 let logData = [];
 let dayFilter = 'ALL', muscFilter = 'ALL';
 const charts = {};
-let isSyncing = false;
 
-// ── UI feedback ──
-function showSyncStatus(msg, color='var(--accent)') {
-  let el = document.getElementById('sync-status');
-  if(!el) {
-    el = document.createElement('div');
-    el.id = 'sync-status';
-    el.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:999;padding:8px 14px;border-radius:8px;font-size:11px;font-family:DM Mono,monospace;font-weight:500;transition:opacity .4s;pointer-events:none;';
-    document.body.appendChild(el);
-  }
-  el.style.background = 'var(--bg2)';
-  el.style.border = '1px solid ' + color;
-  el.style.color = color;
-  el.style.opacity = '1';
-  el.textContent = msg;
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.style.opacity='0', 3000);
-}
-
-async function loadData() {
-  showSyncStatus('⟳ Cargando datos...', 'var(--text3)');
+function loadData(){
   try {
-    const res = await fetch(API);
-    const json = await res.json();
-    if(json.status === 'ok') {
-      logData = json.data || [];
-      // Migrate old localStorage data if Sheet is empty
-      if(logData.length === 0) {
-        const old = localStorage.getItem('workout_log_v4');
-        if(old) {
-          logData = JSON.parse(old);
-          await save();
-          showSyncStatus('✓ Datos migrados a Google Sheets', 'var(--accent)');
-        }
-      } else {
-        showSyncStatus('✓ Sincronizado', 'var(--accent)');
-      }
-    }
-  } catch(e) {
-    // Fallback to localStorage if offline
-    showSyncStatus('⚠ Sin conexión — usando datos locales', 'var(--warn)');
-    const old = localStorage.getItem('workout_log_v4');
-    if(old) logData = JSON.parse(old);
-  }
+    const r = localStorage.getItem(SK);
+    logData = r ? JSON.parse(r) : [];
+  } catch(e){ logData = []; }
   renderLog(); refreshAllCards();
 }
 
-async function save() {
-  if(isSyncing) return;
-  isSyncing = true;
-  showSyncStatus('⟳ Guardando...', 'var(--text3)');
-  try { localStorage.setItem('workout_log_v4', JSON.stringify(logData)); } catch(e) {}
-  try {
-    const encoded = encodeURIComponent(JSON.stringify(logData));
-    const res = await fetch(API + '?action=save&data=' + encoded);
-    const json = await res.json();
-    if(json.status === 'ok') showSyncStatus('✓ Guardado en Google Sheets', 'var(--accent)');
-    else showSyncStatus('⚠ Error al guardar', 'var(--danger)');
-  } catch(e) {
-    showSyncStatus('⚠ Sin conexión — guardado localmente', 'var(--warn)');
-  } finally {
-    isSyncing = false;
-  }
+function save(){
+  try { localStorage.setItem(SK, JSON.stringify(logData)); } catch(e){}
 }
+
 function uid(){ return 'e'+Date.now()+Math.random().toString(36).slice(2); }
 
 function fmtDate(d){
@@ -987,6 +951,36 @@ function editLogEntry(id,row){
   btns.append(bS,bC);panel.append(fDate,fSer,fReps,fWt,fNext,fNote,btns);
   row.insertAdjacentElement('afterend',panel);
   fSer.querySelector('input').focus();
+}
+
+function exportData(){
+  const json = JSON.stringify(logData, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'workout_log_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const imported = JSON.parse(e.target.result);
+      if(!Array.isArray(imported)) throw new Error('Formato inválido');
+      const existingIds = new Set(logData.map(x=>x.id));
+      const newEntries = imported.filter(x=>!existingIds.has(x.id));
+      logData = [...logData, ...newEntries];
+      save(); renderLog(); refreshAllCards();
+      alert('✓ Importados '+newEntries.length+' registros nuevos. Total: '+logData.length);
+    } catch(err){ alert('Error al importar: '+err.message); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
 }
 
 function deleteLogEntry(id){
