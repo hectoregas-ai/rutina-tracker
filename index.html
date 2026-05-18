@@ -250,8 +250,8 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-he
   .tech-grid { grid-template-columns: 1fr; gap: 8px; }
   .add-form { grid-template-columns: 1fr 1fr; gap: 7px; }
   .log-wrap { padding: 10px 10px 80px; }
-  .log-row { grid-template-columns: 1fr 58px 58px; gap: 4px; }
-  .lr-mono:nth-child(4),.lr-next,.lr-note { display: none; }
+  .log-row { grid-template-columns: 2fr 60px 60px 70px; gap: 4px; }
+  .lr-next,.lr-note { display: none; }
   .log-hdr { flex-direction: column; gap: 8px; align-items: flex-start; }
   .l-stats { gap: 12px; }
   .filters { gap: 4px; }
@@ -451,7 +451,7 @@ let curObj = 'h';
 // ═══════════════════════════════════════════════════════════════
 // TRACKER DATA
 // ═══════════════════════════════════════════════════════════════
-const SK = 'workout_log_v5';
+const SK = 'workout_log_v4';
 const SEED = [
   {id:'s1', date:'2025-05-03',day:'B',exercise:'Remo con mancuerna a una mano',  primary:'Dorsal ancho',      sets:'4x8',  weight:'22.5kg',equipment:'Mancuerna', next:'25kg',    note:''},
   {id:'s2', date:'2025-05-03',day:'B',exercise:'Pullover con mancuerna',          primary:'Dorsal ancho',      sets:'3x12', weight:'15kg',  equipment:'Bench',    next:'same',    note:''},
